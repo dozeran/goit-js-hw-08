@@ -18,7 +18,25 @@ refs.form.addEventListener(
   }, 500)
 );
 
-savedInputsValue();
+refs.email.setAttribute('required', 'on');
+refs.textarea.setAttribute('required', 'on');
+
+if (localStorage.getItem('feedback-form-state')) {
+  savedInputsValue();
+}
+
+function savedInputsValue() {
+  if (JSON.parse(localStorage.getItem('feedback-form-state')).email) {
+    refs.email.value = JSON.parse(
+      localStorage.getItem('feedback-form-state')
+    ).email;
+  }
+  if (JSON.parse(localStorage.getItem('feedback-form-state')).message) {
+    refs.textarea.value = JSON.parse(
+      localStorage.getItem('feedback-form-state')
+    ).message;
+  }
+}
 
 function onFormSubmit(e) {
   e.preventDefault();
@@ -26,16 +44,4 @@ function onFormSubmit(e) {
   console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
   e.target.reset();
   localStorage.removeItem('feedback-form-state');
-}
-
-function savedInputsValue() {
-  if (localStorage.getItem('feedback-form-state')) {
-    const savedData = JSON.parse(localStorage.getItem('feedback-form-state'));
-    if (savedData.email) {
-      refs.email.value = savedData.email;
-    }
-    if (savedData.message) {
-      refs.textarea.value = savedData.message;
-    }
-  }
 }
