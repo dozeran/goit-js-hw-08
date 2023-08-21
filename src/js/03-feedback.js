@@ -14,7 +14,14 @@ refs.form.addEventListener(
   'input',
   throttle(e => {
     formData[e.target.name] = e.target.value;
-    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+    localStorage.setItem(
+      'feedback-form-state',
+      JSON.stringify({
+        ...formData,
+        email: refs.email.value,
+        message: refs.textarea.value,
+      })
+    );
   }, 500)
 );
 
@@ -44,4 +51,6 @@ function onFormSubmit(e) {
   console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
   e.target.reset();
   localStorage.removeItem('feedback-form-state');
+  formData.email = '';
+  formData.message = '';
 }
